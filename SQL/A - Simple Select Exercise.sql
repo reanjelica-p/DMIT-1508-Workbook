@@ -78,9 +78,13 @@ WHERE  PositionID = 3
 SELECT  PositionID, PositionDescription
 FROM    Position
 
+--- Explore Intellisense ---
+SELECT	Club.ClubID, Club.ClubName ---C.ClubID, C.ClubName
+FROM	Club ---AS C
+
 --6.    Select the Course Names whose course hours are less than 96
 SELECT  C.CourseName
-FROM    Course C -- I can have an alias to the table name
+FROM    Course AS C -- I can have an alias to the table name
 WHERE   C.CourseHours < 96
 -- Type with me the following...
 SELECT  ST.LastName, ST.DateHired, ST.DateReleased
@@ -143,9 +147,22 @@ WHERE   CourseID LIKE '____1%' -- four underscores, 1, %
 --                     DMIT158
 
 --11. Select the CourseID's and CourseNames where the CourseName contains the word 'programming'
+SELECT CourseID, CourseName
+FROM Course
+WHERE CourseName LIKE '%Programming%'
 
 --12. Select all the ClubNames who start with N or C.
+SELECT ClubName
+FROM Club
+WHERE ClubName LIKE 'N%' OR ClubName LIKE 'C%'
 
 --13. Select Student Names, Street Address and City where the lastName is only 3 letters long.
+SELECT FirstName, LastName, StreetAddress, City
+FROM Student
+WHERE LastName LIKE '___'
 
 --14. Select all the StudentID's where the PaymentAmount < 500 OR the PaymentTypeID is 5
+SELECT StudentID
+FROM Payment
+WHERE PaymentTypeID = 5 OR Amount < 500
+
