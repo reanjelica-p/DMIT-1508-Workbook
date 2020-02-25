@@ -11,7 +11,7 @@ SELECT  'Dan' + ' ' + 'Gilleland', 18 * 52, '5' + '10'
 
 -- Specify a column name with some hard-code/calculated values
 SELECT  'Dan' + ' ' + 'Gilleland' AS 'Instructor',
-        19 * 52 AS 'Weeks at the job'
+        20 * 52 AS 'Weeks at the job'
 
 -- Let's use the SELECT statement with database tables
 
@@ -49,7 +49,7 @@ FROM    Student
 --      and sort the results by the last name
 SELECT    FirstName, LastName
 FROM      Student
-ORDER BY  LastName
+ORDER BY  LastName --ascending alphabetical order
 -- 2.d. Select the first and last names of all the students,
 --      and sort the results by the last name, then by the first name
 SELECT    FirstName, LastName
