@@ -67,7 +67,6 @@ WHERE PaymentTypeID = 5
 SELECT MAX(Amount) as 'Highest payment amount'
 FROM Payment
 
-
 --7.	 Select the lowest payment amount
 SELECT Min(Amount) as 'Lowest payment amount'
 From Payment
@@ -81,11 +80,11 @@ FROM Payment
 SELECT PaymentTypeDescription
 FROM   PaymentType
 
-SELECT COUNT(PaymentTypeID) as 'Acceptable payment types'
+SELECT COUNT(PaymentTypeID) as '# of acceptable payment types'
 From PaymentType
 
 --10. How many students are in club 'CSS'?
-SELECT COUNT(StudentID) as 'Members of the CSS Club'
+SELECT COUNT(StudentID) as '# of members of the CSS Club'
 FROM Activity
 WHERE ClubID LIKE '%CSS%'
 
