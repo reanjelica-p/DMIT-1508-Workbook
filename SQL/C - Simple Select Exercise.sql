@@ -13,7 +13,7 @@ FROM    Registration
 ORDER BY CourseId
 --  Answer to #1
 SELECT  CourseId,                   -- This column is a non-aggregate
-        AVG(Mark) AS 'Average Mark' -- This column performs Aggregate (produce 1 value)
+        AVG(Mark) AS 'Average Mark' -- This column performs Aggregate (gets everything and produces 1 value)
 FROM    Registration
 GROUP BY CourseId                   -- Group by the non-aggregate columns
 -- When performing an Aggregate function in the SELECT clause, if you have any other 
