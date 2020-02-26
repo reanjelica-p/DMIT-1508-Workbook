@@ -60,8 +60,8 @@ FROM    Student
 GROUP BY City
 
 -- 6. Which cities have 2 or more students from them? (HINT, remember that fields that we use in the where or having do not need to be selected.....)
-SELECT  City
---        , COUNT(StudentID) AS 'Student Count'
+SELECT  City,
+        COUNT(StudentID) AS 'Student Count'
 FROM    Student
 GROUP BY City
 HAVING COUNT(StudentID) >= 2
@@ -76,22 +76,50 @@ GROUP BY PaymentTypeID
 
 
 -- 8. How many students are there in each club? Show the clubID and the count
--- TODO: Student Answer Here....
+SELECT Count(StudentID) AS '# of students',
+	   ClubID
+FROM Activity
+GROUP BY ClubID
+
 
 -- Check your answer by manually grouping students by their club membership and counting them
 SELECT  ClubId, StudentID
 FROM    Activity
 
 -- 9. Which clubs have 3 or more students in them?
--- TODO: Student Answer Here....
-
+SELECT COUNT(StudentID) AS '# of students',
+	   ClubId
+FROM Activity
+GROUP BY ClubId
+HAVING Count(StudentID) = 3
 
 --10. Grouping the courses by the number of hours in each course, what is the average cost of those courses? Display the course hours and the average cost.
+SELECT CourseHours, 
+	   AVG(CourseCost) AS 'Avg cost of course'
+FROM Course
+GROUP BY CourseHours, CourseCost
 
 --11. Which teachers are getting the best results from the courses they teach? Display the staff ID and the average course mark, sorted by the course mark from highest to lowest.
+SELECT StaffID,
+	   AVG(Mark) AS 'Average course mark' 
+FROM Registration
+GROUP BY StaffID
+ORDER BY AVG(Mark) DESC
 
 --12. How many male and female students do we have?
+SELECT COUNT(Gender) AS '# of students',
+	   Gender
+FROM Student
+GROUP BY Gender
 
 --13. Show the average balance owing for male and female students.
+SELECT AVG(BalanceOwing) AS 'Average balance',
+	   Gender
+FROM Student
+GROUP BY Gender
 
 --14. How many students participate in school clubs? Display the club id and the number of students. (Hint: You should be using the Activity table for this question.)
+SELECT COUNT(StudentId) AS '# of students',
+	   ClubID
+FROM Activity
+GROUP BY ClubId
