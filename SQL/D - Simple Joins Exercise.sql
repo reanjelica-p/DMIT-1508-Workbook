@@ -3,7 +3,7 @@ USE [A01-School]
 GO
 
 -- We express relationships between tables in our design through FOREIGN KEY constraints.
--- But thsoe constraints simply check/restrict information that is stored in the Foreign Key
+-- But those constraints simply check/restrict information that is stored in the Foreign Key
 -- column. It doesn't actually/physically 'connect' the tables- all tables are 'independent'.
 -- That means that when we try to query information from multiple related tables, 
 -- we have to state the connection between those tables. That is, we have to 
@@ -37,10 +37,20 @@ FROM    Staff S
         ON S.StaffID = R.StaffID
 ORDER BY 'Staff Full Name', CourseId
 
+-- Alternate --
+SELECT FirstName + ' ' + LastName AS 'Staff Full Name',
+	   CourseID
+FROM   Staff AS S
+	INNER JOIN Registration AS R
+	ON S.StaffID = R.StaffID
+GROUP BY FirstName, LastName, CourseId
+ORDER BY 'Staff Full Name', CourseId
+
 --3.	Select all the Club ID's and the Student full names that are in them
--- TODO: Student Answer Here...
+
 
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
+/*
 SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
         R.CourseId,
         R.Mark
@@ -48,6 +58,7 @@ FROM    Registration R
     INNER JOIN Student S
             ON S.StudentID = R.StudentID
 WHERE   S.StudentID = 199899200
+*/
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.
 -- TODO: Student Answer Here...
