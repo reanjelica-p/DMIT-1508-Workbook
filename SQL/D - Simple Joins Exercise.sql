@@ -48,14 +48,14 @@ ORDER BY 'Staff Full Name', CourseId
 
 --3.	Select all the Club ID's and the Student full names that are in them
 SELECT  FirstName + ' ' + LastName AS 'Full Name',
-        ClubId AS 'Club'
+        ClubId
 FROM    Student 
     INNER JOIN Activity 
         ON Student.StudentID = Activity.StudentID
 
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
 SELECT FirstName + ' ' + LastName AS 'Full Name',
-	   CourseId,
+	   CourseID,
 	   Mark
 FROM   Student
 	INNER JOIN Registration
@@ -64,7 +64,7 @@ WHERE Student.StudentID = 199899200
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.
 SELECT FirstName + ' ' + LastName AS 'Full Name',
-	   CourseName,
+	   CourseName AS 'Course Name',
 	   Mark
 FROM Registration
 	INNER JOIN Student
@@ -73,7 +73,7 @@ FROM Registration
 		ON Registration.CourseID = Course.CourseID
 WHERE Student.StudentID = 199899200
 
---6.	Select the CourseID, CourseNames, and the Semesters they have been taught in
+--6.	Select the CourseID, CourseNames, and the Semesters they have been taught in --StudentID 199899200?
 SELECT FirstName + ' ' + LastName AS 'Full Name',
 	   R.CourseID,
 	   CourseName AS 'Course Name',
@@ -83,6 +83,7 @@ FROM Registration AS R
 		ON R.StudentID = Student.StudentID
 	INNER JOIN Course
 		ON R.CourseID = Course.CourseID
+WHERE Student.StudentID = 199899200
 
 --7.	What Staff Full Names have taught Networking 1?
 SELECT St.FirstName + ' ' + St.LastName AS 'Full Name',
