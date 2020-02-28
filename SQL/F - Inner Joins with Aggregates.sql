@@ -3,6 +3,18 @@ USE [A01-School]
 GO
 
 --1. How many staff are there in each position? Select the number and Position Description
+--Exploration
+SELECT PositionDescription, PositionID
+FROM Position
+SELECT FirstName + ' ' + LastName, PositionID 
+FROM Staff
+
+--Show the data when joined
+SELECT PositionDescription, FirstName + ' ' + LastName
+FROM Staff AS S
+	INNER JOIN Position AS P
+		ON S.PositionID = P.PositionID
+
 SELECT  PositionDescription,                    --  <-- non-aggregate
         COUNT(S.StaffID) AS 'Number of Staff'   --  <-- aggregate
 FROM    Staff AS S
@@ -24,9 +36,11 @@ GROUP BY CourseName
 ORDER BY 'Average Mark' DESC
 
 --3. How many payments where made for each payment type. Display the PaymentTypeDescription and the count.
- -- TODO: Student Answer Here... 
+SELECT COUNT(PaymentTypeID) AS '# of transactions',
+	   PaymentTypeDescription
+FROM PaymentType
+GROUP BY PaymentTypeDescription
 
- 
 --4. Select the average Mark for each student. Display the Student Name and their average mark. Use table aliases in your FROM & JOIN clause.
 SELECT  S.FirstName  + ' ' + S.LastName AS 'Student Name',
         AVG(R.Mark)                     AS 'Average'
@@ -37,12 +51,29 @@ GROUP BY    S.FirstName  + ' ' + S.LastName  -- Since my non-aggregate is an exp
                                              -- I am using the same expression in my GROUP BY
 
 --5. Select the same data as question 4 but only show the student names and averages that are 80% or higher. (HINT: Remember the HAVING clause?)
- -- TODO: Student Answer Here... 
+SELECT  S.FirstName  + ' ' + S.LastName AS 'Student Name',
+        AVG(R.Mark)                     AS 'Average'
+FROM    Registration AS R
+        INNER JOIN Student AS S
+            ON S.StudentID = R.StudentID
+GROUP BY    S.FirstName  + ' ' + S.LastName 
+HAVING AVG(R.Mark) >= 80
 
 
 --6. What is the highest, lowest and average payment amount for each payment type Description?
- -- TODO: Student Answer Here... 
-
+SELECT MAX(Amount) AS 'Highest payment amount',
+	   MIN(Amount) AS 'Lowest payment amount',
+	   AVG(Amount) AS 'Avg payment amount'
+FROM Payment
  
 --7. Which clubs have 3 or more students in them? Display the Club Names.
- -- TODO: Student Answer Here... 
+SELECT ClubName
+	   --COUNT(S.StudentID) --this is to merely check
+FROM Activity as A
+	INNER JOIN Student AS S
+		ON A.StudentID = S.StudentID
+	INNER JOIN Club
+		ON Club.ClubID = A.ClubID
+GROUP BY ClubName
+HAVING COUNT(A.StudentID) = 3
+

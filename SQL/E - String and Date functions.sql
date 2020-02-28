@@ -16,19 +16,21 @@ GO
     ORDER BY 1 -- sorted by the first column
 
 	-- SUBSTRING
-	SELECT SUBSTRING('Hello World', 1, 2)
+	SELECT SUBSTRING('Hello World', 1, 2) --INDEX STARTS AT 1
 	SELECT SUBSTRING('To be or not to be', 10, 3)
 	-- REVERSE
     SELECT REVERSE('Dan')
     -- (Club whose id is a palindrome)
     -- Select the insert statement below to add a row into the Club table
-    -- INSERT INTO Club(ClubId, ClubName) VALUES ('ABCBA', 'Active Bat Catching Brotherhood Assoc.')
+    INSERT INTO Club(ClubId, ClubName) VALUES ('ABCBA', 'Active Bat Catching Brotherhood Assoc.')
 	SELECT	ClubId, ClubName
 	FROM	Club
 	WHERE   ClubId = REVERSE(ClubId)
 	-- Modifying
 		-- LTRIM, RTRIM -- To remove whitespace from the left or the right
 		-- UPPER, LOWER -- Return upper and lower characters
+	SELECT CHARINDEX(' ', 'Hello World') 
+
 
 -- Date Functions
 	-- GETDATE()
@@ -72,10 +74,10 @@ WHERE   FirstName = 'Tess'
 SELECT  DATEDIFF(dd, 'Jan 1, 2000', GETDATE())
 
 -- 3. How Many Students where born in each month? Display the Month Name and the Number of Students.
-SELECT  DATENAME(mm, Birthdate) AS 'Month Name',
-        COUNT(1) AS 'Number of Students'
+SELECT  DATENAME(mm, Birthdate) AS 'Month Name', --Non-aggregate
+        COUNT(1) AS 'Number of Students' --Aggregate
 FROM    Student
-GROUP BY DATENAME(mm, Birthdate)
+GROUP BY DATENAME(mm, Birthdate) --Group by the non-aggregates
 
 -- 4. Select the Names of all the students born in December.
 SELECT  FirstName, LastName
@@ -91,10 +93,17 @@ WHERE   Mark IS NOT NULL
   AND   LEFT(Semester, 4) = 2004
 
 -- 6. select last three characters of all the courses
-
+SELECT RIGHT  (CourseName,3) AS 'Course Name'
+FROM Registration AS R
+	INNER JOIN Course
+		ON Course.CourseID = R.CourseID
 
 -- 7. Select the characters in the position description from characters 8 to 13 for PositionID 5
-
+SELECT SUBSTRING (PositionDescription, 8, 13)
+FROM Position
+	INNER JOIN Staff AS S
+		ON S.PositionID = Position.PositionID
+WHERE Position.PositionID = 5
 
 -- 8. Select all the Student First Names as upper case.
 
