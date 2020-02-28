@@ -47,11 +47,7 @@ GROUP BY FirstName, LastName, CourseId
 ORDER BY 'Staff Full Name', CourseId
 
 --3.	Select all the Club ID's and the Student full names that are in them
-SELECT  FirstName + ' ' + LastName AS 'Full Name',
-        ClubId
-FROM    Student
-    INNER JOIN Club
-        ON Club.ClubId = Student.StudentId -- ON helps us identify MATCHING data
+/*  */
 
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
 /*
