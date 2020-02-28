@@ -54,6 +54,9 @@ FROM    Student
         ON Student.StudentID = Activity.StudentID
 
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
+SELECT FirstName + ' ' + LastName AS 'Full Name',
+	   CourseId,
+	   Mark
 /*
 SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
         R.CourseId,
