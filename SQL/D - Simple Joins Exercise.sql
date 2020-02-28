@@ -57,30 +57,72 @@ FROM    Student
 SELECT FirstName + ' ' + LastName AS 'Full Name',
 	   CourseId,
 	   Mark
-/*
-SELECT  S.FirstName + ' ' + S.LastName AS 'Student Name',
-        R.CourseId,
-        R.Mark
-FROM    Registration R
-    INNER JOIN Student S
-            ON S.StudentID = R.StudentID
-WHERE   S.StudentID = 199899200
-*/
+FROM   Student
+	INNER JOIN Registration
+		ON Student.StudentID = Registration.StudentID
+WHERE Student.StudentID = 199899200
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName AS 'Full Name',
+	   CourseName,
+	   Mark
+FROM Registration
+	INNER JOIN Student
+		ON Registration.StudentID = Student.StudentID
+	INNER JOIN Course
+		ON Registration.CourseID = Course.CourseID
+WHERE Student.StudentID = 199899200
 
 --6.	Select the CourseID, CourseNames, and the Semesters they have been taught in
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName AS 'Full Name',
+	   R.CourseID,
+	   CourseName AS 'Course Name',
+	   Semester
+FROM Registration AS R
+	INNER JOIN Student	
+		ON R.StudentID = Student.StudentID
+	INNER JOIN Course
+		ON R.CourseID = Course.CourseID
 
 --7.	What Staff Full Names have taught Networking 1?
--- TODO: Student Answer Here...
+SELECT St.FirstName + ' ' + St.LastName AS 'Full Name',
+		CourseName AS 'Course Name'
+FROM Registration AS R
+	INNER JOIN Course
+		ON R.CourseID = Course.CourseID
+	INNER JOIN Staff AS St
+		ON St.StaffID = R.StaffID
+WHERE CourseName LIKE '%Networking_1%'
 
 --8.	What is the course list for student ID 199912010 in semester 2001S. Select the Students Full Name and the CourseNames
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName AS 'Full Name',
+	   CourseName AS 'Course Name'
+FROM Registration AS R
+	INNER JOIN Course
+		ON R.CourseID = Course.CourseID
+	INNER JOIN Student
+		ON R.StudentID = Student.StudentID
+WHERE R.StudentID = 199912010 AND R.Semester LIKE '%2001S%'
 
 --9. What are the Student Names, courseID's with individual Marks at 80% or higher? Sort the results by course.
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName As 'Full Name',
+	   R.CourseID,
+	   R.Mark
+FROM Registration AS R
+	INNER JOIN Student
+		ON Student.StudentID = R.StudentId
+	INNER JOIN Course
+		On R.CourseID = Course.CourseID
+WHERE R.Mark >= 80
 
 --10. Modify the script from the previous question to show the Course Name along with the ID.
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName As 'Full Name',
+	   R.CourseID,
+	   CourseName AS 'Course Name',
+	   R.Mark
+FROM Registration AS R
+	INNER JOIN Student
+		ON Student.StudentID = R.StudentId
+	INNER JOIN Course
+		On R.CourseID = Course.CourseID
+WHERE R.Mark >= 80
