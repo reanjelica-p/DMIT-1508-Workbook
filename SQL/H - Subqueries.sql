@@ -99,7 +99,9 @@ GROUP BY PaymentType.PaymentTypeID, PaymentTypeDescription
 --8. What is the total avg mark for the students from Edm?
 SELECT AVG(Mark) AS 'Average'
 FROM   Registration 
-WHERE  StudentID IN (SELECT StudentID FROM Student WHERE City = 'Edm')
+WHERE  StudentID IN (SELECT StudentID 
+					 FROM Student 
+					 WHERE City = 'Edm')
 
 -- The above results, done as a JOIN instead of a subquery
 SELECT AVG(Mark) AS 'Average'
@@ -109,16 +111,39 @@ FROM   Registration
 WHERE City = 'Edm'
 
 -- 9. What is the avg mark for each of the students from Edm? Display their StudentID and avg(mark)
--- TODO: Student Answer Here...
+SELECT StudentID,
+	   AVG(Mark) as 'Average'
+FROM Registration
+WHERE StudentID IN (SELECT StudentID
+					FROM Student
+					WHERE City = 'Edm')
+GROUP BY StudentID
 
 -- 10. Which student(s) have the highest average mark? Hint - This can only be done by a subquery.
-SELECT FirstName + ' ' + LastName as 'Full Name'
-FROM Student
-WHERE StudentID IN (SELECT StudentID
-					FROM Registration
-					WHERE Mark IN 
-					(SELECT AVG(Mark)
-					FROM Registration))
+SELECT StudentID,
+	   Mark
+FROM Registration
+GROUP BY StudentID, Mark
+HAVING AVG(Mark) >= ALL (SELECT AVG(Mark)
+						 FROM Registration
+						 GROUP BY Mark)
+
+SELECT S.FirstName + ' ' + S.LastName as 'Full Name',
+	   AVG(R.Mark) as 'Avg mark',
+	   R.CourseID
+FROM Registration as R
+	INNER JOIN Student as S
+		ON S.StudentID = R.StudentID
+GROUP BY FirstName, LastName, Mark, CourseID
+
+/*
+SELECT  PaymentTypeID
+FROM    Payment
+GROUP BY PaymentTypeID
+HAVING COUNT(PaymentTypeID)  >= ALL (SELECT COUNT(PaymentTypeID)
+                                     FROM Payment 
+                                     GROUP BY PaymentTypeID)
+*/
 
 -- 11. Which course(s) allow the largest classes? Show the course id, name, and max class size.
 SELECT CourseID,
