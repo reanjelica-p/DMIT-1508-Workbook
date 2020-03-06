@@ -18,6 +18,11 @@ AS
     -- Body of procedure here
 RETURN
 GO
+
+To run the stored procedure, you simply have to call it with the EXEC keyword, and pass in whatever data is needed for the parameters. 
+
+EXEC SprocName Arguements
+	-where the ArguementsList is a comma-separated list of values
 */
 
 
@@ -167,12 +172,47 @@ GO
 EXEC LowNumbers
 INSERT INTO Course(CourseId, CourseName, CourseHours, CourseCost, MaxStudents)
 VALUES ('DMIT987', 'Advanced Logic', 90, 420.00, 12)
+GO
 
 --6. Create a stored procedure called "Provinces" to list all the students provinces.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'LowNumbers')
+    DROP PROCEDURE Provinces
+GO
+
+CREATE PROCEDURE Provinces
+AS 
+	SELECT FirstName + ' ' + LastName as 'Full Name',
+		   Province
+	FROM Student
+	GROUP BY FirstName, LastName, Province
+RETURN
+GO
+
+EXEC Provinces
 
 --7. OK, question 6 was ridiculously simple and serves no purpose. Lets remove that stored procedure from the database.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'LowNumbers')
+    DROP PROCEDURE Provinces
+GO
+--8. Create a stored procedure called StudentPaymentTypes that lists all the student names and their payment types. Ensure all the student names are listed, including those who have not yet made a payment
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'LowNumbers')
+    DROP PROCEDURE StudentPaymentTypes
+GO
 
---8. Create a stored procedure called StudentPaymentTypes that lists all the student names and their payment types. Ensure all the student names are listed, including those who have not yet made a payment.
+CREATE PROCEDURE StudentPaymentTypes
+AS
+	SELECT S.FirstName + ' ' + S.LastName as 'Full Name',
+		   Pt.PaymentTypeDescription
+	FROM Payment as P
+		INNER JOIN PaymentType as Pt
+			ON P.PaymentTypeID = Pt.PaymentTypeID
+		INNER JOIN Student as S
+			ON S.StudentID = P.StudentID
+	GROUP BY FirstName, LastName, PaymentTypeDescription
+RETURN
+GO	
+
+EXEC StudentPaymentTypes
 
 --9. Modify the procedure from question 8 to return only the student names that have made payments.
 
