@@ -112,13 +112,27 @@ WHERE City = 'Edm'
 -- TODO: Student Answer Here...
 
 -- 10. Which student(s) have the highest average mark? Hint - This can only be done by a subquery.
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName as 'Full Name'
+FROM Student
+WHERE StudentID IN (SELECT StudentID
+					FROM Registration
+					WHERE Mark IN 
+					(SELECT AVG(Mark)
+					FROM Registration))
 
 -- 11. Which course(s) allow the largest classes? Show the course id, name, and max class size.
--- TODO: Student Answer Here...
+SELECT CourseID,
+	   CourseName as 'Course Name',
+	   MaxStudents as 'Maximum # of students'
+FROM Course
+WHERE MaxStudents IN (SELECT MAX(MaxStudents)
+				      FROM Course)
 
 -- 12. Which course(s) are the most affordable? Show the course name and cost.
--- TODO: Student Answer Here...
+SELECT CourseName
+FROM Course
+WHERE CourseCost IN (SELECT MIN(CourseCost)
+				     FROM Course)
 
 -- 13. Which staff have taught the largest classes? (Be sure to group registrations by course and semester.)
 -- TODO: Student Answer Here...
