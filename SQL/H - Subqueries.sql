@@ -146,9 +146,19 @@ WHERE CourseCost IN (SELECT MIN(CourseCost)
 				     FROM Course)
 
 -- 13. Which staff have taught the largest classes? (Be sure to group registrations by course and semester.)
-SELECT FirstName + ' ' + LastName as 'Full Name'
-FROM Staff
-GROUP BY FirstName, LastName
+SELECT FirstName + ' ' + LastName as 'Full Name',
+	   R.CourseID,
+	   R.Semester,
+	   COUNT(R.StudentID)as '# of students'
+FROM Registration as R
+		INNER JOIN Staff as S
+			ON S.StaffID = R.StaffID
+		INNER JOIN Course as C
+			ON C.CourseID = R.CourseID
+GROUP BY FirstName, LastName, R.CourseID, R.Semester
+HAVING COUNT(StudentID) >= ALL   (SELECT COUNT(StudentID)
+								  FROM Registration
+								  GROUP BY StudentID)
 
 -- 14. Which students are most active in the clubs?
 SELECT A.StudentID,
