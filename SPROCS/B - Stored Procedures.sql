@@ -202,10 +202,14 @@ AS
 RETURN
 GO
 
-
-
 -- 5. Create a stored procedure that will remove a student from a club. Call it RemoveFromClub.
-
+CREATE PROCEDURE RemoveFromClub
+	@StudentID	int
+AS
+	IF @StudentID IS NULL
+		RAISERROR('All parameters are required.', 16, 1)
+	ELSE IF NOT EXISTS (Select StudentID FROM Activity WHERE StudentID = @StudentID)
+		RAISERROR ('StudentID does not exist.', 16, 1)
 
 -- Query-based Stored Procedures
 -- 6. Create a stored procedure that will display all the staff and their position in the school.
