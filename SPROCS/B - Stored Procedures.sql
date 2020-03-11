@@ -1,6 +1,13 @@
 -- Stored Procedures (Sprocs)
 -- Validating Parameter Values
 
+/*
+We can validate parameter values using IF/ELSE statements. An IF/ELSE statement is 
+called a 'flow-control' statement because it controls whether or not another statement
+(or statement block) will execute. The grammar of the IF/ELSE statement is as follows:
+	
+*/
+
 USE [A01-School]
 GO
 
