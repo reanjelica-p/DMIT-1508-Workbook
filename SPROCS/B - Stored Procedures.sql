@@ -71,6 +71,7 @@ GO
 -- 1.b. Modify the AddClub procedure to ensure that the club name and id are actually supplied. Use the RAISERROR() function to report that this data is required.
 ALTER PROCEDURE AddClub
     -- Parameters here
+	-- In SQL, the variables/parameter names always start with the @ symbol. 
     @ClubId     varchar(10),
     @ClubName   varchar(50)
 AS
