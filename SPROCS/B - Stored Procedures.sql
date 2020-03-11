@@ -6,6 +6,24 @@ We can validate parameter values using IF/ELSE statements. An IF/ELSE statement 
 called a 'flow-control' statement because it controls whether or not another statement
 (or statement block) will execute. The grammar of the IF/ELSE statement is as follows:
 	
+	IF (conditional_expression)
+		Statement_or_StatementBlock -- TRUE side
+	ELSE
+		Statement_or_StatementBlock -- FALSE side
+
+		*where the conditional_expression is some kind of expression that results in a boolean
+		(TRUE/FALSE) value, and Statement_or_StatementBlock is a single item that is executed
+		on either the true or false side of the IF/ELSE statement. 
+
+A 'statement block' is one or more statements inside of a pair of BEGIN/END keywords. For example,
+the following statement block consists of two statements (an INSERT and a SELECT):
+
+	BEGIN
+		INSERT INTO SomeTable(Some, Column, Names)
+		VALUES (@Some, @Param, @Values)
+		SELECT @@IDENTITY -- to get the generated primary key
+	END
+			
 */
 
 USE [A01-School]
