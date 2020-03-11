@@ -16,7 +16,8 @@ called a 'flow-control' statement because it controls whether or not another sta
 		on either the true or false side of the IF/ELSE statement. 
 
 A 'statement block' is one or more statements inside of a pair of BEGIN/END keywords. For example,
-the following statement block consists of two statements (an INSERT and a SELECT):
+the following statement block consists of two statements (an INSERT and a SELECT), but it can be considered
+a single 'block' of statements:
 
 	BEGIN
 		INSERT INTO SomeTable(Some, Column, Names)
