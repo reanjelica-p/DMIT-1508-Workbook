@@ -79,6 +79,9 @@ AS
     IF @ClubId IS NULL OR @ClubName IS NULL
     BEGIN
         RAISERROR('Club ID and Name are required', 16, 1)
+		-- The 16 is the error number (we are basically constrained to a range of numbers)
+		-- The 1 is the severity of the error
+		-- We can always use the 16 and the 1
     END
     ELSE
     BEGIN
@@ -87,6 +90,7 @@ AS
     END
 RETURN
 GO
+---THIS IS BASICALLY AN ERROR CHECKING METHOD IN C# PROGRAMMING
 
 -- 2. Make a stored procedure that will find a club based on the first two or more characters of the club's ID. Call the procedure "FindStudentClubs"
 -- The following stored procedure does the query, but without validation
