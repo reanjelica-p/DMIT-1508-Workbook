@@ -61,6 +61,12 @@ AS
 RETURN
 GO
 
+--- Demo/Test the stored procedure ---
+EXEC AddClub 'CLUB', 'Central Library of Unused Books' --Testing with 'good' data
+--- Imagine that the sproc is called with !bad! data...---
+EXEC AddClub null, 'Gotcha'
+EXEC AddClub 'OOPS', null
+GO
 
 -- 1.b. Modify the AddClub procedure to ensure that the club name and id are actually supplied. Use the RAISERROR() function to report that this data is required.
 ALTER PROCEDURE AddClub
@@ -69,6 +75,7 @@ ALTER PROCEDURE AddClub
     @ClubName   varchar(50)
 AS
     -- Body of procedure here
+	--- I validate by finding out if the data is poor. If so, the problem is reported. 
     IF @ClubId IS NULL OR @ClubName IS NULL
     BEGIN
         RAISERROR('Club ID and Name are required', 16, 1)
