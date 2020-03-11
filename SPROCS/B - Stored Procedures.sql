@@ -193,7 +193,7 @@ AS
     IF @StudentId IS NULL OR @FirstName IS NULL OR @LastName IS NULL
         RAISERROR('All parameters are required.', 16, 1)
     ELSE IF NOT EXISTS (SELECT StudentID FROM Student WHERE StudentID = @StudentId)
-        RAISERROR('That student id does not exist', 16, 1)
+        RAISERROR('That student ID does not exist', 16, 1)
     ELSE
         UPDATE  Student
         SET     FirstName = @FirstName,
