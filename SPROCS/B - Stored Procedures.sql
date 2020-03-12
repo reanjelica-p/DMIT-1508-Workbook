@@ -203,6 +203,9 @@ RETURN
 GO
 
 -- 5. Create a stored procedure that will remove a student from a club. Call it RemoveFromClub.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'RemoveFromClub')
+    DROP PROCEDURE RemoveFromClub
+GO
 CREATE PROCEDURE RemoveFromClub
 	@StudentID	int
 AS
@@ -210,6 +213,11 @@ AS
 		RAISERROR('All parameters are required.', 16, 1)
 	ELSE IF NOT EXISTS (Select StudentID FROM Activity WHERE StudentID = @StudentID)
 		RAISERROR ('StudentID does not exist.', 16, 1)
+	ELSE
+		DELETE FROM Activity
+		WHERE StudentID = @StudentID
+	RETURN
+	GO
 
 -- Query-based Stored Procedures
 -- 6. Create a stored procedure that will display all the staff and their position in the school.
