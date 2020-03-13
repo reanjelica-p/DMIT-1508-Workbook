@@ -56,6 +56,7 @@ FROM    Student
 --4.	Select the Student full name, courseID's and marks for studentID 199899200.
 SELECT FirstName + ' ' + LastName AS 'Full Name',
 <<<<<<< HEAD
+<<<<<<< HEAD
 	   CourseId,
 	   Marks
 From   Student
@@ -75,12 +76,17 @@ FROM    Registration R
 WHERE   S.StudentID = 199899200
 */
 =======
+=======
+>>>>>>> 49963b6958216948f905df9f5a8249dbefeda5fc
 	   CourseID,
 	   Mark
 FROM   Student
 	INNER JOIN Registration
 		ON Student.StudentID = Registration.StudentID
 WHERE Student.StudentID = 199899200
+<<<<<<< HEAD
+>>>>>>> 49963b6958216948f905df9f5a8249dbefeda5fc
+=======
 >>>>>>> 49963b6958216948f905df9f5a8249dbefeda5fc
 
 --5.	Select the Student full name, course names and marks for studentID 199899200.
