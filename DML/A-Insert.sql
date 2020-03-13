@@ -15,6 +15,12 @@ GO -- Execute the code up to this point as a single batch
     INSERT INTO TableName(Comma, Separated, ListOf, ColumnNames)
     VALUES ('A', 'Value', 'Per', 'Column'),
            ('Another', 'Row', 'Of', 'Values')
+
+	When inserting values, you can use subqueries for individual values 
+	provided tha tthe subquery returns a single value:
+
+	INSERT INTO TableName (Comma, Seperated, ListOf, ColumnNames)
+	VALUES ('A', (SELECT SingleValue FROM SomeTable), 'Per', 'Column') 
     
     Another syntax for the INSERT statement is to use a SELECT clause in place
     of the VALUES clause. This is used for zero-to-many possible rows to insert.
@@ -48,6 +54,14 @@ FROM    Position
 WHERE   PositionID NOT IN (SELECT PositionID FROM Staff)
 --      Add Sheldon Murray as the new Assistant Dean.
 -- TODO: Student Answer Here....
+INSERT INTO Staff (FirstName, LastName, DateHired, PositionID)
+VALUES ('Sheldon', 'Murray', GETDATE(),
+		(SELECT PositionID
+		FROM Position
+		WHERE PositionDescription = 'Assistant Dean'))
+SELECT 'Sheldon', 'Murray', GETDATE(), PositionID
+FROM Position
+WHERE PositionDescription = 'Assistant Dean'
 
 -- 3. There are three additional clubs being started at the school:
 --      - START - Small Tech And Research Teams
@@ -63,8 +77,39 @@ VALUES ('START', 'Small Tech And Research Teams'),
 -- 4. In your web browser, use https://randomuser.me/ to get information on three
 --    people to add as new students. Write separate insert statement for each new student.
 -- TODO: Student Answer Here....
+--TIP: When inserting into a datetime column you can use a string and SQL Server
+--will convert it for you. E.g.: 'Jan 5, 2020'
+/*
+DELETE FROM Student 
+WHERE FirstName= ('Frederick')
+DELETE FROM Student
+WHERE FirstName= ('Jean')
+DELETE FROM STUDENT
+WHERE FirstName= ('Darlene')
+*/
 
+INSERT INTO Student(FirstName, LastName, Gender, StreetAddress, City, Province, PostalCode, Birthdate)
+VALUES ('Frederick', 'Barrett', 'M', '8024 Frances CT', 'Edm', 'AB', 'T6Y3F3', 'February 2, 1960'),
+	   ('Jean', 'Gilbert', 'F', '4144 Lakeview St', 'Calgary', 'AB', 'T7U0Q1', 'August 6, 1996'),
+	   ('Darlene', 'Wagner', 'F', '4709 Washington Ave', 'Whitecourt', 'AB', 'T9R5G2', 'July 8, 1975')
+SELECT * FROM Student
 
 -- 5. Enroll each of the students you've added into the DMIT777 course.
 --    Use 'Dan Gilleland' as the instructor. At this point, their marks should be NULL.
--- TODO: Student Answer Here....
+INSERT INTO Registration(StudentID, CourseID, Semester, StaffID)
+VALUES ('200978416', 'DMIT777', '2003J', '15'),
+	   ('200978417', 'DMIT777', '2003J', '15'),
+	   ('200978418', 'DMIT777', '2003J', '15')
+
+SELECT R.StudentID,
+	   R.CourseID,
+	   R.Semester,
+	   R.StaffID,
+	   S.FirstName + ' ' + S.LastName AS 'Student Name',
+	   St.FirstName + ' ' + St.LastName AS 'Instructor Name'
+FROM Registration as R
+	INNER JOIN Student as S
+		ON S.StudentID = R.StudentID
+	INNER JOIN Staff as St
+		ON St.StaffID = R.StaffID
+WHERE CourseID = 'DMIT777'

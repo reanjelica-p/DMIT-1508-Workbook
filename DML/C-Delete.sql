@@ -22,4 +22,18 @@ WHERE  StudentID IN (SELECT StudentID
                        AND LastName = 'Nun')
 
 -- 4. The school is resetting all inactive clubs. Remove those clubs without members (use a subquery).
--- TODO: Student Answer Here...
+DELETE FROM Activity
+WHERE ClubID = (SELECT COUNT(StudentID)
+				 FROM Activity
+				 GROUP BY StudentID
+				 HAVING COUNT(StudentID) = 0)
+
+SELECT * FROM Activity
+SELECT * FROM Club
+
+SELECT COUNT(StudentID),
+	   Club.ClubName
+FROM Activity
+	INNER JOIN Club
+		ON Club.ClubID = Activity.ClubID
+GROUP BY ClubName

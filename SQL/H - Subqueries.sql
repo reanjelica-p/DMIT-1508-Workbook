@@ -99,7 +99,9 @@ GROUP BY PaymentType.PaymentTypeID, PaymentTypeDescription
 --8. What is the total avg mark for the students from Edm?
 SELECT AVG(Mark) AS 'Average'
 FROM   Registration 
-WHERE  StudentID IN (SELECT StudentID FROM Student WHERE City = 'Edm')
+WHERE  StudentID IN (SELECT StudentID 
+					 FROM Student 
+					 WHERE City = 'Edm')
 
 -- The above results, done as a JOIN instead of a subquery
 SELECT AVG(Mark) AS 'Average'
@@ -109,19 +111,63 @@ FROM   Registration
 WHERE City = 'Edm'
 
 -- 9. What is the avg mark for each of the students from Edm? Display their StudentID and avg(mark)
--- TODO: Student Answer Here...
+SELECT StudentID,
+	   AVG(Mark) as 'Average'
+FROM Registration
+WHERE StudentID IN (SELECT StudentID
+					FROM Student
+					WHERE City = 'Edm')
+GROUP BY StudentID
 
 -- 10. Which student(s) have the highest average mark? Hint - This can only be done by a subquery.
--- TODO: Student Answer Here...
+
+SELECT S.FirstName + ' ' + S.LastName as 'Full Name', 
+	   AVG(R.Mark) as 'Avg mark'
+FROM Registration as R
+	INNER JOIN Student as S
+		ON S.StudentID = R.StudentID
+GROUP BY S.FirstName, S.LastName, R.Mark
+HAVING AVG(R.Mark) >= ALL (SELECT AVG(Mark)
+						   FROM Registration
+						   GROUP BY Mark)
 
 -- 11. Which course(s) allow the largest classes? Show the course id, name, and max class size.
--- TODO: Student Answer Here...
+SELECT CourseID,
+	   CourseName as 'Course Name',
+	   MaxStudents as 'Maximum # of students'
+FROM Course
+WHERE MaxStudents IN (SELECT MAX(MaxStudents)
+				      FROM Course)
 
 -- 12. Which course(s) are the most affordable? Show the course name and cost.
--- TODO: Student Answer Here...
+SELECT CourseName
+FROM Course
+WHERE CourseCost IN (SELECT MIN(CourseCost)
+				     FROM Course)
 
 -- 13. Which staff have taught the largest classes? (Be sure to group registrations by course and semester.)
--- TODO: Student Answer Here...
+SELECT FirstName + ' ' + LastName as 'Full Name',
+	   R.CourseID,
+	   R.Semester,
+	   COUNT(R.StudentID)as '# of students'
+FROM Registration as R
+		INNER JOIN Staff as S
+			ON S.StaffID = R.StaffID
+		INNER JOIN Course as C
+			ON C.CourseID = R.CourseID
+GROUP BY FirstName, LastName, R.CourseID, R.Semester
+HAVING COUNT(StudentID) >= ALL   (SELECT COUNT(StudentID)
+								  FROM Registration
+								  GROUP BY StudentID)
 
 -- 14. Which students are most active in the clubs?
--- TODO: Student Answer Here...
+SELECT A.StudentID,
+	   S.FirstName + ' ' + S.LastName as 'Full Name',
+	   COUNT(A.ClubID) as '# of clubs'
+FROM Activity as A
+	INNER JOIN Student as S
+		ON S.StudentID = A.StudentID
+GROUP BY A.StudentID, S.FirstName, S.LastName
+HAVING COUNT(A.StudentID) >= ALL (SELECT COUNT(StudentID)
+								  FROM Activity
+								  GROUP BY StudentID)
