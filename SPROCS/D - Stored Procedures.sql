@@ -132,6 +132,7 @@ AS
         FROM    Student S
             INNER JOIN Activity A ON A.StudentID = S.StudentID
         WHERE   A.ClubId = @ClubId
+		--SELECT @@ROWCOUNT
     END
 RETURN
 GO
