@@ -5,6 +5,8 @@
 -- CREATE DATABASE [A01-School]
 GO
 
+IF DB_ID ('A01-School') IS NULL
+	CREATE DATABASE [A01-School]
 USE [A01-School]
 GO
 
