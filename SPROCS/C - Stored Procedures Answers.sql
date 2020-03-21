@@ -70,6 +70,22 @@ FROM    Staff S
         ON S.StaffID = R.StaffID
 ORDER BY 'Staff Full Name', CourseId
 --      Place this in a stored procedure called CourseInstructors.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'CourseInstructors')
+    DROP PROCEDURE CourseInstructors
+GO
+CREATE PROCEDURE CourseInstructors
+	
+/*
+CREATE PROCEDURE ListStudentMarksByRange
+    @lower  decimal,
+    @upper  decimal
+AS
+    SELECT  StudentID, CourseId, Mark
+    FROM    Registration
+    WHERE   Mark BETWEEN @lower AND @upper -- BETWEEN is inclusive
+RETURN
+GO
+*/
 
 
 /* ----------------------------------------------------- */

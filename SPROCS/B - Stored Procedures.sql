@@ -222,6 +222,10 @@ AS
 -- Query-based Stored Procedures
 -- 6. Create a stored procedure that will display all the staff and their position in the school.
 --    Show the full name of the staff member and the description of their position.
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'StaffandPositions')
+    DROP PROCEDURE StaffandPositions
+GO
+CREATE PROCEDURE StaffandProcedures
 
 -- 7. Display all the final course marks for a given student. Include the name and number of the course
 --    along with the student's mark.
