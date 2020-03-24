@@ -48,6 +48,7 @@ AS
     BEGIN
         RAISERROR('All parameters are required (cannot be null)', 16, 1)
     END
+	--We may be asked to do another validation
     ELSE
     BEGIN
         -- Begin Transaction
@@ -91,6 +92,12 @@ AS
     END
 RETURN
 GO
+
+--Testing the stored procedure
+-- sp_help TransferCourse
+-- SELECT * FROM Registration
+-- SELECT * FROM Course 
+EXEC TransferCourse 199899200, '2004J', 'DMIT152', 'DMIT101'
 
 
 -- 2. Add a stored procedure called AdjustMarks that takes in a course ID. The procedure should adjust the marks of all students for that course by increasing the mark by 10%. Be sure that nobody gets a mark over 100%.
