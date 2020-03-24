@@ -217,18 +217,36 @@ AS
 		DELETE FROM Activity
 		WHERE StudentID = @StudentID
 	RETURN
-	GO
+GO
 
 -- Query-based Stored Procedures
 -- 6. Create a stored procedure that will display all the staff and their position in the school.
 --    Show the full name of the staff member and the description of their position.
+
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'StaffandPositions')
     DROP PROCEDURE StaffandPositions
 GO
-CREATE PROCEDURE StaffandProcedures
+CREATE PROCEDURE StaffandPositions
+AS
+	SELECT FirstName + ' ' + LastName as 'Full Name', 
+	PositionDescription
+	From Staff
+		INNER JOIN Position
+			ON Position.PositionID = Staff.PositionID
+GO
+
+EXEC StaffandPositions
+GO
 
 -- 7. Display all the final course marks for a given student. Include the name and number of the course
 --    along with the student's mark.
+
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'FinalMarks')
+    DROP PROCEDURE FinalMarks
+GO
+CREATE PROCEDURE FinalMarks
+AS
+	SELECT 
 
 -- 8. Display the students that are enrolled in a given course on a given semester.
 --    Display the course name and the student's full name and mark.
