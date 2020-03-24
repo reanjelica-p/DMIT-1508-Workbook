@@ -3,6 +3,20 @@
 
 USE [A01-School]
 GO
+/*
+What is a Transaction?
+	A transaction is typically needed when we do two or more of an INSERT/UPDATE/DELETE.
+	A transaction must succeed or fail as a group. 
+
+How do we start a Transaction?
+	BEGIN TRANSACTION
+		The BEGIN TRANSACTION only needs to be stated once. 
+	To make a transaction succeed, we use the statement COMMIT TRANSACTION
+		The COMMIT TRANSACTION should only be used once. 
+	To make a transaction fail, we use the statement ROLLBACK TRANSACTION
+		We will have one ROLLBACK TRANSACTION for every INSERT/UPDATE/DELETE in our
+		stored procedure. 
+*/
 
 /*
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'SprocName')
