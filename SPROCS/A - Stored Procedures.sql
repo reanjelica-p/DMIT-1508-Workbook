@@ -195,24 +195,37 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROC
     DROP PROCEDURE Provinces
 GO
 --8. Create a stored procedure called StudentPaymentTypes that lists all the student names and their payment types. Ensure all the student names are listed, including those who have not yet made a payment
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'LowNumbers')
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'StudentPaymentTypes')
     DROP PROCEDURE StudentPaymentTypes
 GO
 
 CREATE PROCEDURE StudentPaymentTypes
 AS
-	SELECT S.FirstName + ' ' + S.LastName as 'Full Name',
-		   Pt.PaymentTypeDescription
-	FROM Payment as P
-		INNER JOIN PaymentType as Pt
-			ON P.PaymentTypeID = Pt.PaymentTypeID
-		INNER JOIN Student as S
-			ON S.StudentID = P.StudentID
-	GROUP BY FirstName, LastName, PaymentTypeDescription
+	SELECT FirstName + ' ' + LastName as 'Full Name',
+	--Amount,
+	PaymentTypeDescription
+	FROM Student
+	LEFT OUTER JOIN Payment
+		ON Payment.StudentID = Student.StudentID
+	LEFT OUTER JOIN PaymentType
+		ON Payment.PaymentTypeID = PaymentType.PaymentTypeID
 RETURN
 GO	
 
 EXEC StudentPaymentTypes
+GO
 
 --9. Modify the procedure from question 8 to return only the student names that have made payments.
+ALTER PROCEDURE StudentPaymentTypes
+AS
+	SELECT S.FirstName + ' ' + S.LastName as 'Full Name',
+		   Pt.PaymentTypeDescription
+	FROM Student as S
+		INNER JOIN Payment as P
+			ON S.StudentID = P.StudentID
+	    INNER JOIN PaymentType as Pt
+			ON P.PaymentTypeID = Pt.PaymentTypeID
+GO
 
+EXEC StudentPaymentTypes
+GO
