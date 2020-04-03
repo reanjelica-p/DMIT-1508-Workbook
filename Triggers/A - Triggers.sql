@@ -3,6 +3,24 @@ USE [A01-School]
 GO
 
 /*
+About Triggers
+If you recall about transactions, they are used whenever we have 2 or more of an INSERT/UPDATE/DELETE. These are EXPLICIT transactions. 
+A transaction holds the database changes in a temporary state and finalizes it with a COMMIT TRANSACTION. 
+These temporary tables have the same columns that the table being affected has. THese tables have special names: 
+	-deleted
+	-inserted
+
+From the perspective of an insert-- we are ading a new row(s) of data to a table. 
+From the perspective of a delete-- we are removing a row(s) of data from a table. 
+From the perspective of an update-- we are replacing a row(s) of data in a table; replacing, deleting, then inserting. 
+
+Triggers are our opportunity to intercept the interal transaction that SQL server does for each INSERT/UPDATE/DELETE. 
+Triggers are never called directly by our scripts, instead they are called (or 'triggered') 
+by SQL server as it performs its internal transaction. 
+Triggers are 'attached' to individual tables. If you drop the table, then the trigger is dropped too. 
+*/
+
+/*
 IF EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[Table_TriggerType]'))
     DROP TRIGGER Table_TriggerType
 GO
