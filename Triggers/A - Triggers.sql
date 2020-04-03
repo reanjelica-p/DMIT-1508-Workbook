@@ -127,9 +127,10 @@ GO
 --We have a complex business rule that we are trying to enforce.
 --How can we tell if a course's cost is being increased by more than 20%? We have to do a comparison between the 'before' cost and the 'after' cost.
 --The 'before' cost is reflected in the deleted table; the 'after' cost is reflected in the inserted table.
+
 CREATE TRIGGER Course_Update_CourseCostLimit
-ON Course
-FOR Update -- Choose only the DML statement(s) that apply
+ON Course -- The inserted and deleted tables will have the same 'schema' (columns) as the course table
+FOR Update -- Only doing it on an UPDATE statement, because that's the only time we have a  before/after version of the data.
 AS
     -- Body of Trigger
     IF @@ROWCOUNT > 0 AND
@@ -144,8 +145,8 @@ GO
 -- TODO: Write the code that will test this stored procedure.
 SELECT * FROM Course
 UPDATE Course SET CourseCost = 1000 -- This should fail
-UPDATE Course SET CourseCost = CourseCost * 1.21
-UPDATE Course SET CourseCost = CourseCost * 1.195
+UPDATE Course SET CourseCost = CourseCost * 1.21 -- An increase of 21%
+UPDATE Course SET CourseCost = CourseCost * 1.195 -- An increase of 19.5%
 
 -- 3. Too many students owe us money and keep registering for more courses! Create a trigger to ensure that a student cannot register for any more courses if they have a balance owing of more than $500.
 IF EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[Registration_Insert_BalanceOwing]'))
