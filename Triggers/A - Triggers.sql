@@ -5,6 +5,7 @@ GO
 /*
 About Triggers
 If you recall about transactions, they are used whenever we have 2 or more of an INSERT/UPDATE/DELETE. These are EXPLICIT transactions. 
+SQL Server does this using two temporary tables it constructs for the DML statement. 
 A transaction holds the database changes in a temporary state and finalizes it with a COMMIT TRANSACTION. 
 These temporary tables have the same columns that the table being affected has. THese tables have special names: 
 	-deleted
@@ -50,9 +51,11 @@ RETURN
 GO
 -- Demonstrate the diagnostic trigger
 SELECT * FROM Activity
-INSERT INTO Activity(StudentID, ClubId) VALUES (200494476, 'CIPS')
+INSERT INTO Activity(StudentID, ClubId) VALUES (200494476, 'CIPS') --Our trigger will be called
+
 -- (note: generally, it's not a good idea to change a primary key, even part of one)
 UPDATE Activity SET ClubId = 'NASA1' WHERE StudentID = 200494476
+--You can think of an UPDATE as deleting old data and inserting new data
 DELETE FROM Activity WHERE StudentID = 200494476
 
 -- 1. In order to be fair to all students, a student can only belong to a maximum of 3 clubs. Create a trigger to enforce this rule.
