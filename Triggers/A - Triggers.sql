@@ -169,9 +169,25 @@ RETURN
 GO
 -- TODO: Write code to test this trigger
 SELECT * FROM Student WHERE BalanceOwing > 0
+GO
+-- Write a stored procedure called RegisterStudent that puts a student in a course and increases the balance owing by the cost of the course. 
+-- After creating the stored procedure, do some tests of the stored procedure. Remember to have the trigger in place (on the Registration table). 
 
--- Write a stored procedure called RegisterStudent that puts a student in a course and increases the balance owing by the cost of the course.
-
+CREATE PROCEDURE RegisterStudent
+AS 
+	SELECT Registration.StudentID,
+		   FirstName + ' ' + LastName as 'Full Name',
+		   Registration.CourseID,
+		   CourseName,
+		   --CourseCost,
+		   BalanceOwing = BalanceOwing + CourseCost
+	FROM Registration
+		INNER JOIN Student
+			ON Student.StudentID = Registration.StudentID
+		INNER JOIN Course
+			ON Course.CourseID = Registration.CourseID
+RETURN
+GO
 
 --4. Our school DBA has suddenly disabled some Foreign Key constraints to deal with performance issues! Create a trigger on the Registration table to ensure that only valid CourseIDs, StudentIDs and StaffIDs are used for grade records. (You can use sp_help tablename to find the name of the foreign key constraints you need to disable to test your trigger.) Have the trigger raise an error for each foreign key that is not valid. If you have trouble with this question create the trigger so it just checks for a valid student ID.
 -- sp_help Registration -- then disable the foreign key constraints....
