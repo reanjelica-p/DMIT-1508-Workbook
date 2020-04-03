@@ -19,6 +19,14 @@ Triggers are our opportunity to intercept the interal transaction that SQL serve
 Triggers are never called directly by our scripts, instead they are called (or 'triggered') 
 by SQL server as it performs its internal transaction. 
 Triggers are 'attached' to individual tables. If you drop the table, then the trigger is dropped too. 
+
+Triggers are used for:
+	-Performing complex validations that cannot be done with ordinary CHECK constraints
+	or other constraints.
+		-For example, I might need to compare something in this table with some other
+		set of information from multiple tables, or against some aggregates.
+		-A opportunity to do some archiving or auditing actions
+		-To prevent an INSERT/UPDATE/DELETE from happening(by doing a ROLLBACK transaction). 
 */
 
 /*
