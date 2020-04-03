@@ -97,23 +97,36 @@ SELECT StudentID, FirstName, LastName FROM Student WHERE StudentID = 200495500
 INSERT INTO Activity(StudentID, ClubId)
 VALUES (200495500, 'CIPS') -- Robert Smith
 
+SELECT * FROM Student WHERE StudentID = 200312345
+
 -- The following should succeed
 INSERT INTO Activity(StudentID, ClubId)
 VALUES (200312345, 'CIPS') -- Mary Jane
 
+SELECT * FROM Activity WHERE StudentID = 200312345
+
+SELECT * FROM Activity 
+--The following statement will try to insert multiple rows
 INSERT INTO Activity(StudentID, ClubId)
 VALUES (200122100, 'CIPS'), -- Peter Codd   -- New to the Activity table
        (200494476, 'CIPS'), -- Joe Cool     -- New to the Activity table
        (200522220, 'CIPS'), -- Joe Petroni  -- New to the Activity table
        (200978400, 'CIPS'), -- Peter Pan    -- New to the Activity table
        (200688700, 'CIPS')  -- Robbie Chan  -- New to the Activity table
-      ,(200495500, 'CIPS')  -- Robert Smith -- This would be his 4th club!
+      ,(200495500, 'CIPS')  -- Robert Smith -- This would be his 4th club! 
+										    -- This one bad row of data wound up 
+											-- having all the others be aborted as well.
 
 -- 2. The Education Board is concerned with rising course costs! Create a trigger to ensure that a course cost does not get increased by more than 20% at any one time.
 IF EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[Course_Update_CourseCostLimit]'))
     DROP TRIGGER Course_Update_CourseCostLimit
 GO
 
+--The trigger we want to create here is because we need to do some complex validation 
+--that can't be done in a regular CHECK constraint. 
+--We have a complex business rule that we are trying to enforce.
+--How can we tell if a course's cost is being increased by more than 20%? We have to do a comparison between the 'before' cost and the 'after' cost.
+--The 'before' cost is reflected in the deleted table; the 'after' cost is reflected in the inserted table.
 CREATE TRIGGER Course_Update_CourseCostLimit
 ON Course
 FOR Update -- Choose only the DML statement(s) that apply
