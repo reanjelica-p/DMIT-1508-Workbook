@@ -268,6 +268,7 @@ RETURN
 GO
 INSERT INTO Club(ClubId, ClubName) VALUES ('HACK', 'Honest Analyst Computer Knowledge')
 GO
+
 -- 6. Our network security officer suspects our system has a virus that is allowing students to alter their balance owing records! In order to track down what is happening we want to create a logging table that will log any changes to the balance owing in the Student table. You must create the logging table and the trigger to populate it when the balance owing is modified.
 -- Step 1) Make the logging table
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'BalanceOwingLog')
@@ -308,6 +309,9 @@ GO
 
 SELECT * FROM BalanceOwingLog -- To see what's in there before an update
 -- Hacker statements happening offline....
+SELECT * FROM Student
+UPDATE Student SET BalanceOwing = 50
+	WHERE StudentID = 198933540
 UPDATE Student SET BalanceOwing = BalanceOwing - 100 -- Hacker failed, but not disuaded
 UPDATE Student SET BalanceOwing = BalanceOwing - 100 WHERE BalanceOwing > 100
 SELECT * FROM BalanceOwingLog -- To see what's in there after a hack attempt
