@@ -233,6 +233,21 @@ AS
     END
 RETURN
 GO
+-- Test the trigger (on the Registration table)
+SELECT * FROM Registration
+--Let's modify this record: 199899200 DMIT1254 2005M 0.00 Y 6
+UPDATE Registration
+SET Mark = 65,
+	WithdrawYN = 'N'
+WHERE StudentID = 199899200
+      AND CourseID = 'DMIT254'
+	  AND Semester = '2005M'
+--Test with bad data
+UPDATE Registration
+SET StaffID = 99 --there is no staff with ID 99
+WHERE StudentID = 199899200
+	  AND CourseID = 'DMIT254'
+	  AND Semester = '2005M' 
 
 -- 5. The school has placed a temporary hold on the creation of any more clubs. (Existing clubs can be renamed or removed, but no additional clubs can be created.) Put a trigger on the Clubs table to prevent any new clubs from being created.
 IF EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[Club_Insert_Lockdown]'))
