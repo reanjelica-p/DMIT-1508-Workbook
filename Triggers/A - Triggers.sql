@@ -205,7 +205,7 @@ ON Registration
 FOR Insert,Update -- Choose only the DML statement(s) that apply
 AS
 	-- Body of Trigger
-    IF @@ROWCOUNT > 0
+    IF @@ROWCOUNT > 0 --As a rule of thumb, you should always check for @@ROWCOUNT in a trigger
     BEGIN
         -- UPDATE(columnName) is a function call that checks to see if information between the 
         -- deleted and inserted tables for that column are different (i.e.: data in that column
