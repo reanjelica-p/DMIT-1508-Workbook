@@ -189,6 +189,8 @@ AS
 RETURN
 GO
 
+
+
 --4. Our school DBA has suddenly disabled some Foreign Key constraints to deal with performance issues! Create a trigger on the Registration table to ensure that only valid CourseIDs, StudentIDs and StaffIDs are used for grade records. (You can use sp_help tablename to find the name of the foreign key constraints you need to disable to test your trigger.) Have the trigger raise an error for each foreign key that is not valid. If you have trouble with this question create the trigger so it just checks for a valid student ID.
 -- sp_help Registration -- then disable the foreign key constraints....
 ALTER TABLE Registration NOCHECK CONSTRAINT FK_GRD_CRS_CseID
@@ -208,7 +210,7 @@ AS
         -- UPDATE(columnName) is a function call that checks to see if information between the 
         -- deleted and inserted tables for that column are different (i.e.: data in that column
         -- has changed).
-        IF UPDATE(StudentID) AND
+        IF UPDATE(StudentID) AND --The UPDATE keyword here is the UPDATE() function, not the UPDATE statement
            NOT EXISTS (SELECT * FROM inserted I INNER JOIN Student S ON I.StudentID = S.StudentID)
         BEGIN
             RAISERROR('That is not a valid StudentID', 16, 1)
